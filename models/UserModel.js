@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
+var uniqueValidator = require("mongoose-unique-validator");
 
-const studentSchema = Schema({
+const userSchema = Schema({
   firstName: {
     type: String,
     require: true,
@@ -12,22 +13,28 @@ const studentSchema = Schema({
   email: {
     type: String,
     require: true,
+    unique: true,
   },
   passwordHashed: {
     type: String,
     require: true,
   },
-  birthday: {
-    type: Date,
+  cellphoneNumber: {
+    type: String,
     require: true,
   },
-  age: {
-    type: Number,
+  birthday: {
+    type: Date,
+  },
+  rol: {
+    type: String,
     require: true,
   },
 });
 
-studentSchema.set("toJSON", {
+userSchema.plugin(uniqueValidator);
+
+userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id;
     delete returnedObject._id;
@@ -36,6 +43,6 @@ studentSchema.set("toJSON", {
   },
 });
 
-const Student = model("Student", studentSchema);
+const User = model("user", userSchema);
 
-module.exports = Student;
+module.exports = User;
