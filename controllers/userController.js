@@ -13,6 +13,16 @@ userRouter.get("/:rol", async (req, res) => {
   }
 });
 
+userRouter.get("/:rol/:assignature", async (req, res) => {
+  const { id, assignature } = req.params;
+  try {
+    const usersByRol = await User.find({ $and: [{ id }, { assignature }] });
+    res.status(200).json(usersByRol);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+});
+
 userRouter.post("/", async (req, res) => {
   const {
     firstName,
@@ -22,6 +32,7 @@ userRouter.post("/", async (req, res) => {
     cellphoneNumber,
     birthday,
     rol,
+    assignature,
   } = req.body;
   const saltRounds = 10;
 
@@ -36,6 +47,7 @@ userRouter.post("/", async (req, res) => {
       birthday,
       cellphoneNumber,
       rol,
+      assignature,
     });
 
     const savedUser = await user.save();

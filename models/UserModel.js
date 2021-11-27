@@ -30,6 +30,9 @@ const userSchema = Schema({
     type: String,
     require: true,
   },
+  assignature: {
+    type: String,
+  },
 });
 
 userSchema.plugin(uniqueValidator);
